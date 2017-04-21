@@ -341,17 +341,6 @@ static UInt64 GetDecompressRating(UInt64 elapsedTime,
   return MyMultDiv64(numCommands, elapsedTime);
 }
 
-static UInt64 GetTotalRating(
-    UInt32 dictionarySize, 
-    bool isBT4,
-    UInt64 elapsedTimeEn, UInt64 sizeEn,
-    UInt64 elapsedTimeDe, 
-    UInt64 inSizeDe, UInt64 outSizeDe)
-{
-  return (GetCompressRating(dictionarySize, isBT4, elapsedTimeEn, sizeEn) + 
-    GetDecompressRating(elapsedTimeDe, inSizeDe, outSizeDe)) / 2;
-}
-
 static void PrintRating(FILE *f, UInt64 rating)
 {
   fprintf(f, "%5d MIPS", (unsigned int)(rating / 1000000));

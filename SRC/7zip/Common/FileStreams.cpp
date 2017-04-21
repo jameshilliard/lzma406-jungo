@@ -259,3 +259,47 @@ STDMETHODIMP CStdOutFileStream::WritePart(const void *data, UInt32 size, UInt32 
   return Write(data, size, processedSize);
 }
 #endif
+
+STDMETHODIMP CMemInFileStream::Read(void *data, UInt32 size, UInt32 *processedSize)
+{
+  if(processedSize != NULL)
+    *processedSize = 0;
+
+  if (size > _buf_size - _pos)
+    size = _buf_size - _pos;
+
+  memcpy(data, (char *)_buf + _pos, size);
+  _pos += size;
+    
+  if(processedSize != NULL)
+    *processedSize = size;
+  return S_OK;
+}
+  
+STDMETHODIMP CMemInFileStream::ReadPart(void *data, UInt32 size, UInt32 *processedSize)
+{
+  return Read(data, size, processedSize);
+}
+
+STDMETHODIMP CMemOutFileStream::Write(const void *data, UInt32 size, UInt32 *processedSize)
+{
+  if(processedSize != NULL)
+    *processedSize = 0;
+
+  /* Consider not enough space in buffer as failure */
+  if (size > _buf_size - _pos)
+    return E_FAIL;
+
+  memcpy((char *)_buf + _pos, data, size);
+  _pos += size;
+  	
+  if(processedSize != NULL)
+    *processedSize = size;
+
+  return S_OK;
+}
+
+STDMETHODIMP CMemOutFileStream::WritePart(const void *data, UInt32 size, UInt32 *processedSize)
+{
+  return Write(data, size, processedSize);
+}

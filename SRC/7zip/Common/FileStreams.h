@@ -99,4 +99,37 @@ public:
 };
 #endif
 
+class CMemInFileStream: 
+  public ISequentialInStream,
+  public CMyUnknownImp
+{
+public:
+  MY_UNKNOWN_IMP
+  UInt32 _pos, _buf_size;
+  void *_buf;
+
+  CMemInFileStream() { _pos = 0; _buf = NULL; }
+  virtual ~CMemInFileStream() {}
+  void SetBuffer(void *buf, int buf_size) { _buf = buf; _buf_size = buf_size; }
+  STDMETHOD(Read)(void *data, UInt32 size, UInt32 *processedSize);
+  STDMETHOD(ReadPart)(void *data, UInt32 size, UInt32 *processedSize);
+};
+
+class CMemOutFileStream: 
+  public ISequentialOutStream,
+  public CMyUnknownImp
+{
+public:
+  MY_UNKNOWN_IMP
+  UInt32 _pos, _buf_size;
+  void *_buf;
+
+  CMemOutFileStream() { _pos = 0; _buf = NULL; }
+  UInt32 DataSize(void) { return _pos; }
+  virtual ~CMemOutFileStream() {}
+  void SetBuffer(void *buf, int buf_size) { _buf = buf; _buf_size = buf_size; }
+  STDMETHOD(Write)(const void *data, UInt32 size, UInt32 *processedSize);
+  STDMETHOD(WritePart)(const void *data, UInt32 size, UInt32 *processedSize);
+};
+
 #endif

@@ -455,6 +455,9 @@ int LzmaDecode(
   UInt32 posStateMask = (1 << pb) - 1;
   UInt32 literalPosMask = (1 << lp) - 1;
   int len = 0;
+#ifdef __LZMA_UNCOMPRESS_KERNEL__
+  UInt32 prev_ind = 0;
+#endif
   if (bufferSize < numProbs * sizeof(CProb))
     return LZMA_RESULT_NOT_ENOUGH_MEM;
   for (i = 0; i < numProbs; i++)
@@ -478,6 +481,15 @@ int LzmaDecode(
         #endif
         )
         & posStateMask);
+
+#ifdef __LZMA_UNCOMPRESS_KERNEL__
+    if (prev_ind < (nowPos >> 15))
+    {
+	prev_ind = nowPos >> 15;
+	puts(".");
+    }
+#endif
+    
     #ifdef _LZMA_IN_CB
     if (rd.Result != LZMA_RESULT_OK)
       return rd.Result;

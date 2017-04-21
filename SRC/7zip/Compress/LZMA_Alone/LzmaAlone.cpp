@@ -334,7 +334,7 @@ int main2(int n, const char *args[])
     else
       inStreamSpec->File.GetLength(fileSize);
 
-    for (int i = 0; i < 8; i++)
+    for (int i = 0; i < 4; i++)
     {
       Byte b = Byte(fileSize >> (8 * i));
       if (outStream->Write(&b, sizeof(b), 0) != S_OK)
@@ -366,7 +366,7 @@ int main2(int n, const char *args[])
       return 1;
     }
     fileSize = 0;
-    for (int i = 0; i < 8; i++)
+    for (int i = 0; i < 4; i++)
     {
       Byte b;
       UInt32 processedSize;

@@ -48,14 +48,11 @@ void SplitCommandLine(const UString &s, UStringVector &parts)
 }
 
 
-static const wchar_t kSwitchID1 = '-';
-static const wchar_t kSwitchID2 = '/';
-
 static const wchar_t kSwitchMinus = '-';
 
 static bool IsItSwitchChar(wchar_t c)
 { 
-  return (c == kSwitchID1 || c == kSwitchID2); 
+  return (c == kSwitchMinus); 
 }
 
 CParser::CParser(int numSwitches):
